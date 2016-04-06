@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.lenovo.scviewdemo.view.SplashCountView;
 
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         ViewPager  viewPager = (ViewPager) findViewById(R.id.vp);
         viewPager.setAdapter(getAdapter());
         scView.setViewPager(viewPager);
+
     }
 
     @NonNull
@@ -53,5 +56,32 @@ public class MainActivity extends AppCompatActivity {
                 container.removeView((View)object);
             }
         };
+    }
+
+    LinearLayout ll_guide_points;
+    ImageView redPoint;
+    private void init() {
+        ll_guide_points = (LinearLayout) findViewById(R.id.ll_guide_points);
+        redPoint = (ImageView) findViewById(R.id.iv_guide_redPoint);
+        // 初始化数据
+        initData();
+        // 设置数据适配器
+        // 监听ViewPager的滑动事件
+    }
+
+    private void initData() {
+        for (int i = 0; i < 4; i++) {
+            ImageView imageView = new ImageView(this);
+
+            ImageView point = new ImageView(this);
+            point.setBackgroundResource(R.drawable.guide_point_normal);
+            int pointDp2Px = CommonUtils.dp2px(this, 10);// dp转px
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(pointDp2Px, pointDp2Px);
+            if (i != 0) {
+                params.leftMargin = pointDp2Px;
+            }
+            point.setLayoutParams(params);
+            ll_guide_points.addView(point);
+        }
     }
 }

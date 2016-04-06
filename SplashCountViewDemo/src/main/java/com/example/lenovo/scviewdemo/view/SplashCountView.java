@@ -13,46 +13,96 @@ import android.view.View;
 import java.util.ArrayList;
 
 /**
- * Created by Lenovo on 2016/3/17.
+ * Created by zhengpeng on 2016/3/17.
  */
 public class SplashCountView extends View {
-    Paint paint;
-    Paint paintCurrent;
+    Paint paintNormal;
+    Paint paintSelected;
+    private float selectedLeftScale;
+    ArrayList<Rect> rects;
+    ArrayList<Circle> circles;
+
+    private int count = 3;//splash引导页数量
+    private int currentPosition = 0;
+    private int layoutLeft = 350;//px 引导方块的左边距
+    private int layoutTop = 1400;//引导方块的上边距
+    private int width = 50; //方块宽
+    private int height = 20;//方块高
+    private int margin = 50;//方块之间间距
+    private int radius = 15;
+
+    private String normalColor = "gray";
+    private String selectedColor = "red";
+
+    public enum ViewShape {
+        Rect, Circle
+    }
+
+    public enum MotionType {
+        Gradual, Sudden
+    }
+
+    private ViewShape defaultViewShape = ViewShape.Rect;
+    private MotionType defaultMotionType = MotionType.Gradual;
+    private ViewShape viewShape = defaultViewShape;
+    private MotionType motionType = defaultMotionType;
+
+    public void setViewShape(ViewShape viewShape) {
+        this.viewShape = viewShape;
+    }
+
+    public void setMotionType(MotionType motionType) {
+        this.motionType = motionType;
+    }
+    public void setShapeAndType(ViewShape viewShape,MotionType motionType) {
+        this.viewShape = viewShape;
+        this.motionType = motionType;
+    }
     public SplashCountView(Context context) {
         super(context);
     }
+
     public SplashCountView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(Color.parseColor("gray"));
-        paintCurrent = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paintCurrent.setColor(Color.parseColor("red"));
+        paintNormal = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintNormal.setColor(Color.parseColor(normalColor));
+        paintSelected = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintSelected.setColor(Color.parseColor(selectedColor));
     }
+
     public SplashCountView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-    private int count = 3;//splash引导页数量
-    private int currentPosition = 0;
-    private int layoutLeft = 350;//px
-    private int layoutTop = 1400;
-    private int width = 50;
-    private int height = 20;
-    private int margin = 50;
+
 
     public void setViewPager(ViewPager viewPager) {
         this.viewPager = viewPager;
         count = viewPager.getAdapter().getCount();
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            private int oldPositionOffsetPixels;
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                // update(position);
-               // Log.i("onPageScrolled", "position" + position + "positionOffset" + positionOffset + "positionOffsetPixels" + positionOffsetPixels);
-                //updateOffset(positionOffsetPixels);
+//                Log.i("onPageScrolled", "position" + position + "positionOffset" + positionOffset + "positionOffsetPixels" + positionOffsetPixels+"delta="+delta);
+//
+//                if (oldPositionOffsetPixels > 0) {
+//                    //第二次调用onPageScrolled，说明可以计算delta了 向左滑 positionOffsetPixels逐渐增大，delta为正数。
+//                    delta = positionOffsetPixels - oldPositionOffsetPixels;
+//                }
+//                oldPositionOffsetPixels = positionOffsetPixels;
+                if (motionType == MotionType.Gradual) {
+                    selectedLeftScale = position + positionOffset ;
+                    invalidate();
+                }
             }
 
             @Override
             public void onPageSelected(int position) {
-                update(position);
+                if (motionType == MotionType.Sudden) {
+                    selectedLeftScale = position;
+                    invalidate();
+                }
                 Log.i("onPageSelected", "position" + position);
             }
 
@@ -61,58 +111,90 @@ public class SplashCountView extends View {
 
             }
         });
+        switch (viewShape){
+            case Circle:
+                initCircle(count);
+                break;
+            case Rect:
+                initRect(count);
+                break;
 
-        initRect(count);
-    }
-    int offset;
-    private void updateOffset(int positionOffsetPixels) {
-        offset = width*positionOffsetPixels/pagerWidth;
-        Log.i("updateOffset", "offset" + offset+"pagerWidth"+pagerWidth);
-        //在当前的矩形上再绘制一个offset矩形
-        invalidate();
-    }
-
-    ArrayList<Rect> rects;
-    int pagerWidth = 1080;
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-
-        pagerWidth = getMeasuredWidth();
+        }
     }
 
+    private void initCircle(int count) {
+        circles = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            Circle c = new Circle(layoutLeft + i * (radius*2 + margin), layoutTop, radius);
+            circles.add(c);
+        }
+
+    }
     private void initRect(int count) {
         rects = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             Rect rect = new Rect(layoutLeft + i * (width + margin), layoutTop, layoutLeft + width + i * (width + margin), layoutTop + height);
             rects.add(rect);
         }
-
     }
+
+    int pagerWidth = -1;
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+
+        pagerWidth = getMeasuredWidth();
+        int viewPagerMeasuredWidth = viewPager.getMeasuredWidth();
+        int child0vidth = viewPager.getChildAt(0).getMeasuredWidth();
+        int child1vidth = viewPager.getChildAt(1).getMeasuredWidth();
+
+        Log.i("", "onSizeChanged" + pagerWidth+"viewPagerMeasuredWidth"+viewPagerMeasuredWidth+"child0vidth"+child0vidth+"child1vidth"+child1vidth);
+    }
+
+
 
     private void update(int position) {
         currentPosition = position;
-        Log.i("update","position="+position);
+        Log.i("update", "position=" + position);
         invalidate();
     }
 
     private ViewPager viewPager;
-    Rect currentRect;
+    Rect selectedRect = new Rect(layoutLeft, layoutTop, layoutLeft + width, layoutTop + height);
+    Circle selectedCircle = new Circle(layoutLeft, layoutTop,radius);
     @Override
     protected void onDraw(Canvas canvas) {
-        for (int i = 0; i < rects.size(); i++) {
-            if (i == currentPosition) {
-                currentRect = rects.get(i);
-                canvas.drawRect(currentRect, paintCurrent);
+        switch (viewShape){
+            case Circle:
+                selectedCircle.circleX = layoutLeft+ (int)(selectedLeftScale*(radius*2+margin));
+                for (int i = 0; i < circles.size(); i++) {
+                    Circle circle = circles.get(i);
+                    canvas.drawCircle(circle.circleX, circle.circleY, radius, paintNormal);
+                }
+                canvas.drawCircle(selectedCircle.circleX,selectedCircle.circleY, radius,paintSelected);
+                break;
+            case Rect:
+                selectedRect.left = layoutLeft + (int)(selectedLeftScale*(width+margin));
+                selectedRect.right = layoutLeft + (int)(selectedLeftScale*(width+margin) + width);
+                for (int i = 0; i < rects.size(); i++) {
+                    canvas.drawRect(rects.get(i), paintNormal);
+                }
 
-            } else {
-                canvas.drawRect(rects.get(i), paint);
-            }
-
+                canvas.drawRect(selectedRect, paintSelected);
+                break;
         }
-       // currentRect.right = currentRect.left+offset;
-       // canvas.drawRect(currentRect, paint);
 
         super.onDraw(canvas);
     }
+    class Circle {
+        int circleX;
+        int circleY;
+        int radius;
 
+        public Circle(int circleX, int circleY, int radius) {
+            this.circleX = circleX;
+            this.circleY = circleY;
+            this.radius = radius;
+        }
+    }
 }

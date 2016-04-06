@@ -13,5 +13,25 @@
     <com.example.lenovo.scviewdemo.view.SplashCountView
         android:id="@+id/scView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.example.lenovo.scviewdemo.view.SplashCountView>
+        android:layout_height="match_parent">
+
+    </com.example.lenovo.scviewdemo.view.SplashCountView>
+
+    <!--<RelativeLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_marginBottom="40dp" >-->
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/ll_guide_points"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content" />-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_guide_redPoint"-->
+    <!--android:layout_width="10dp"-->
+    <!--android:layout_height="10dp"-->
+    <!--android:background="@drawable/guide_point_red" />-->
 </RelativeLayout>
