@@ -1,1 +1,1 @@
-include ':app', ':SplashCountViewDemo'
+include ':app', ':ViewPagerGuideDotsDemo'
