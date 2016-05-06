@@ -1,10 +1,7 @@
 package com.example.lenovo.ViewPagerGuideDotsDemo;
 
-import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -26,23 +23,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         ViewPagerGuideDots guideDots = (ViewPagerGuideDots)findViewById(R.id.guideDots);
-       // guideDots.setViewShape(ViewPagerGuideDots.ViewShape.Circle);
+        guideDots.setViewShape(ViewPagerGuideDots.ViewShape.Circle);
         ViewPager  viewPager = (ViewPager) findViewById(R.id.vp);
         viewPager.setAdapter(getAdapter());
         guideDots.setViewPager(viewPager);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        Notification notification = null;
-        Notification.Builder builder = new Notification.Builder(this);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle("点击打开应用");
-        builder.setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT));
-        notification = builder.build();
-        nm.notify(11, notification);
     }
 
     @NonNull
