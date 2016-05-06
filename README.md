@@ -12,7 +12,9 @@ ViewPagerGuideDots guideDots = (ViewPagerGuideDots)findViewById(R.id.guideDots);
 
 
 
-![GIF](https://github.com/tmac1999/ViewPagerGuideDots/blob/master/images/countdownviewdemo.gif)
+![GIF](https://github.com/tmac1999/ViewPagerGuideDotsDemo/tree/master/images/countdownviewdemo.gif)
+
+
 
 
 # SplashCountViewDemo
