@@ -32,8 +32,9 @@ guideDots.setMotionType(ViewPagerGuideDots.MotionType.Sudden);
 效果自行脑补...
 
 
--Thats all.
+###### That's all.
 
+---
 # ViewPagerGuideDotsDemo
 When  using a viewpager for splash page.You always need to add some small circles or rectangles to imply current selected pager and total pager count.
 Try this custom view so you could conveniently settle this things:
