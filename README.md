@@ -10,8 +10,8 @@ ViewPagerGuideDots guideDots = (ViewPagerGuideDots)findViewById(R.id.guideDots);
 
 
 ## 效果图  Preview
-
-
+#### 默认 default
+（三个小方块是png图片自带的，对比四个小方块是代码绘制）
 ![gif](https://github.com/tmac1999/ViewPagerGuideDotsDemo/blob/master/images/countdownviewdemo.gif)
 
 ### setViewShape(ViewPagerGuideDots.ViewShape.Circle);
@@ -37,6 +37,6 @@ ViewPagerGuideDots guideDots = (ViewPagerGuideDots)findViewById(R.id.guideDots);
 easily to make introduction dots(or rectangles) above the viewpager.
 
 
-update 4.6
+
 
 
