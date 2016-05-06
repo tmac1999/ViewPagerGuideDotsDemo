@@ -12,8 +12,7 @@ ViewPagerGuideDots guideDots = (ViewPagerGuideDots)findViewById(R.id.guideDots);
 ## 效果图  Preview
 
 
-![](http://i11.tietuku.com/32ab49ac382b7dfd.gif)
-![](https://github.com/tmac1999/ViewPagerGuideDotsDemo/tree/master/images/countdownviewdemo.gif)
+![gif](https://github.com/tmac1999/ViewPagerGuideDotsDemo/blob/master/images/countdownviewdemo.gif)
 
 ### setViewShape(ViewPagerGuideDots.ViewShape.Circle);
 ```
@@ -23,15 +22,18 @@ ViewPagerGuideDots guideDots = (ViewPagerGuideDots)findViewById(R.id.guideDots);
         viewPager.setAdapter(getAdapter());
         guideDots.setViewPager(viewPager);
 ```
-![](https://github.com/tmac1999/ViewPagerGuideDotsDemo/tree/master/images/circle.png)
+
+
+![png](https://github.com/tmac1999/ViewPagerGuideDotsDemo/blob/master/images/circle.png)
 # ViewPagerGuideDotsDemo
 When  using a viewpager for splash page.You always need to add some small circles or rectangles to imply current selected pager and total pager count.
 Try this custom view so you could conveniently settle this things:
+```
 ViewPagerGuideDots guideDots = (ViewPagerGuideDots)findViewById(R.id.guideDots);
         ViewPager  viewPager = (ViewPager) findViewById(R.id.vp);
         viewPager.setAdapter(getAdapter());
         guideDots.setViewPager(viewPager);
-
+```
 easily to make introduction dots(or rectangles) above the viewpager.
 
 
